@@ -27,6 +27,8 @@ const { maxLength: maxLengthDefault, minLength: minLengthDefault } = defaults.ti
 
 type MetaTitleProps = {
   readonly hasGenerateTitleFn: boolean
+  separator?: string
+  suffix?: string
 } & TextFieldClientProps
 
 export const MetaTitleComponent: React.FC<MetaTitleProps> = (props) => {
@@ -43,6 +45,8 @@ export const MetaTitleComponent: React.FC<MetaTitleProps> = (props) => {
     field: fieldFromProps,
     hasGenerateTitleFn,
     labelProps,
+    separator = '',
+    suffix = '',
   } = props || {}
   const { path: pathFromContext } = useFieldProps()
   const { t } = useTranslation<PluginSEOTranslations, PluginSEOTranslationKeys>()
@@ -115,6 +119,23 @@ export const MetaTitleComponent: React.FC<MetaTitleProps> = (props) => {
     locale,
     setValue,
   ])
+
+  const fullTitle = `${value} ${separator} ${suffix}`.trim()
+  const displayTitle = `${value}${separator ? ` ${separator} ` : ''}${suffix}`.trim()
+
+  const getTextWidth = (text: string, font: string) => {
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')
+    if (!context) {
+      return 0
+    }
+    context.font = font
+    return context.measureText(text).width
+  }
+
+  const inputEl = document.querySelector(`input[name="${pathFromContext}"]`)
+  const suffixPosition =
+    value && inputEl ? getTextWidth(value, window.getComputedStyle(inputEl).font) + 16 : 0
 
   return (
     <div
@@ -198,6 +219,20 @@ export const MetaTitleComponent: React.FC<MetaTitleProps> = (props) => {
           }}
           value={value}
         />
+        {value && (
+          <span
+            style={{
+              color: '#9A9A9A',
+              left: `${suffixPosition}px`,
+              pointerEvents: 'none',
+              position: 'absolute',
+              top: '50%',
+              transform: 'translateY(-50%)',
+            }}
+          >
+            &nbsp;{separator}&nbsp;{suffix}
+          </span>
+        )}
       </div>
       <div
         style={{
@@ -206,7 +241,7 @@ export const MetaTitleComponent: React.FC<MetaTitleProps> = (props) => {
           width: '100%',
         }}
       >
-        <LengthIndicator maxLength={maxLength} minLength={minLength} text={value} />
+        <LengthIndicator maxLength={maxLength} minLength={minLength} text={fullTitle} />
       </div>
     </div>
   )

@@ -17,13 +17,26 @@ import { OverviewField } from './fields/Overview/index.js'
 import { PreviewField } from './fields/Preview/index.js'
 import { translations } from './translations/index.js'
 
+function generateTitleWithSuffix(
+  title: string,
+  separator: string = '',
+  suffix: string = '',
+): string {
+  return `${title}${separator ? ` ${separator} ` : ''}${suffix}`.trim()
+}
+
 export const seoPlugin =
   (pluginConfig: SEOPluginConfig) =>
   (config: Config): Config => {
+    const separator = pluginConfig.separator || ''
+    const suffix = pluginConfig.suffix || ''
+
     const defaultFields: Field[] = [
       OverviewField({}),
       MetaTitleField({
         hasGenerateFn: typeof pluginConfig?.generateTitle === 'function',
+        separator,
+        suffix,
       }),
       MetaDescriptionField({
         hasGenerateFn: typeof pluginConfig?.generateDescription === 'function',
@@ -119,6 +132,21 @@ export const seoPlugin =
                   ...seoTabs,
                   ...(collection?.fields?.[0]?.type === 'tabs' ? collection.fields.slice(1) : []),
                 ],
+                hooks: {
+                  ...collection.hooks,
+                  afterRead: [
+                    ...(collection.hooks?.afterRead || []),
+                    ({ doc, req }) => {
+                      if (
+                        (req.payloadAPI === 'REST' || req.payloadAPI === 'GraphQL') &&
+                        doc?.meta?.title
+                      ) {
+                        doc.meta.title = generateTitleWithSuffix(doc.meta.title, separator, suffix)
+                      }
+                      return doc
+                    },
+                  ],
+                },
               }
             }
 

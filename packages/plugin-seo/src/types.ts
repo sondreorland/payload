@@ -83,6 +83,16 @@ export type SEOPluginConfig = {
   globals?: string[]
   interfaceName?: string
   /**
+   * Separator to be used between different segments in the generated title.
+   * For example, it can be a dash ("-") or a pipe ("|") symbol.
+   */
+  separator?: string
+  /**
+   * Text to append to the generated title as a suffix.
+   * This can be used for adding brand names or other static text at the end.
+   */
+  suffix?: string
+  /**
    * Group fields into tabs, your content will be automatically put into a general tab and the SEO fields into an SEO tab
    *
    * If you need more flexibility you can insert the fields manually as needed. @link https://payloadcms.com/docs/beta/plugins/seo#direct-use-of-fields

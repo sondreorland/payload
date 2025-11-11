@@ -45,6 +45,7 @@ export interface Config {
     | (RequireEmail & {
         collection: 'require-email';
       });
+  virtualFields: {};
   jobs: {
     tasks: unknown;
     workflows: unknown;

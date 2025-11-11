@@ -113,16 +113,17 @@ export interface GeneratedTypes {
   collectionsUntyped: {
     [slug: string]: JsonObject & TypeWithID
   }
+
   dbUntyped: {
     defaultIDType: number | string
   }
   globalsSelectUntyped: {
     [slug: string]: SelectType
   }
-
   globalsUntyped: {
     [slug: string]: JsonObject
   }
+
   jobsUntyped: {
     tasks: {
       [slug: string]: {
@@ -138,6 +139,11 @@ export interface GeneratedTypes {
   }
   localeUntyped: null | string
   userUntyped: User
+  virtualFieldsUntyped: {
+    [slug: string]: {
+      [fieldName: string]: string
+    }
+  }
 }
 
 // Helper type to resolve the correct type using conditional types
@@ -155,6 +161,11 @@ type ResolveCollectionJoinsType<T> = 'collectionsJoins' extends keyof T
   ? T['collectionsJoins']
   : // @ts-expect-error
     T['collectionsJoinsUntyped']
+
+type ResolveVirtualFieldsType<T> = 'virtualFields' extends keyof T
+  ? T['virtualFields']
+  : // @ts-expect-error
+    T['virtualFieldsUntyped']
 
 type ResolveGlobalType<T> = 'globals' extends keyof T
   ? T['globals']
@@ -182,6 +193,8 @@ export type TypedUploadCollection = NonNever<{
 export type TypedCollectionSelect = ResolveCollectionSelectType<GeneratedTypes>
 
 export type TypedCollectionJoins = ResolveCollectionJoinsType<GeneratedTypes>
+
+export type TypedVirtualFields = ResolveVirtualFieldsType<GeneratedTypes>
 
 export type TypedGlobal = ResolveGlobalType<GeneratedTypes>
 

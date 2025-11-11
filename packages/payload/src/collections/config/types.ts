@@ -46,6 +46,7 @@ import type {
   TypedCollection,
   TypedCollectionSelect,
   TypedLocale,
+  TypedVirtualFields,
 } from '../../index.js'
 import type {
   PayloadRequest,
@@ -73,8 +74,14 @@ export type RequiredDataFromCollection<TData extends JsonObject> = MarkOptional<
   'createdAt' | 'id' | 'sizes' | 'updatedAt'
 >
 
+type VirtualFieldKeys<TSlug extends CollectionSlug> = TSlug extends keyof TypedVirtualFields
+  ? keyof TypedVirtualFields[TSlug]
+  : never
+
 export type RequiredDataFromCollectionSlug<TSlug extends CollectionSlug> =
-  RequiredDataFromCollection<DataFromCollectionSlug<TSlug>>
+  TSlug extends keyof TypedVirtualFields
+    ? RequiredDataFromCollection<Omit<DataFromCollectionSlug<TSlug>, VirtualFieldKeys<TSlug>>>
+    : RequiredDataFromCollection<DataFromCollectionSlug<TSlug>>
 
 export type HookOperationType =
   | 'autosave'

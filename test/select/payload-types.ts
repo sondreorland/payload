@@ -52,6 +52,7 @@ export interface Config {
   user: User & {
     collection: 'users';
   };
+  virtualFields: {};
   jobs: {
     tasks: unknown;
     workflows: unknown;
@@ -122,7 +123,7 @@ export interface Post {
   unnamedTabNumber?: number | null;
   hasOne?: (string | null) | Rel;
   hasMany?: (string | Rel)[] | null;
-  hasManyUpload?: (string | Rel)[] | null;
+  hasManyUpload?: (string | Upload)[] | null;
   hasOnePoly?: {
     relationTo: 'rels';
     value: string | Rel;
@@ -144,6 +145,24 @@ export interface Rel {
   id: string;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "upload".
+ */
+export interface Upload {
+  id: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -368,24 +387,6 @@ export interface Point {
   point?: [number, number] | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "upload".
- */
-export interface Upload {
-  id: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -86,6 +86,21 @@ const TextFields: CollectionConfig = {
       defaultValue: () => defaultText,
     },
     {
+      name: 'virtualText',
+      type: 'text',
+      virtual: true,
+      admin: {
+        description: 'This is a virtual field - computed on read, not stored in DB',
+      },
+      hooks: {
+        afterRead: [
+          ({ data }) => {
+            return `Virtual: ${data?.text || 'no text'}`
+          },
+        ],
+      },
+    },
+    {
       name: 'defaultAsync',
       type: 'text',
       defaultValue: async (): Promise<string> => {

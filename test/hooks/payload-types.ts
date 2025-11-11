@@ -54,6 +54,7 @@ export interface Config {
   user: HooksUser & {
     collection: 'hooks-users';
   };
+  virtualFields: {};
   jobs: {
     tasks: unknown;
     workflows: unknown;

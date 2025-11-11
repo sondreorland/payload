@@ -41,6 +41,7 @@ export interface Config {
     | (Customer & {
         collection: 'customers';
       });
+  virtualFields: {};
   jobs: {
     tasks: unknown;
     workflows: unknown;

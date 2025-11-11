@@ -58,6 +58,16 @@ export interface Config {
   user: User & {
     collection: 'users';
   };
+  virtualFields: {
+    'fields-persistance': {
+      text: 'text';
+      textHooked: 'textHooked';
+      array: 'array';
+      textWithinRow: 'textWithinRow';
+      textWithinCollapsible: 'textWithinCollapsible';
+      textWithinTabs: 'textWithinTabs';
+    };
+  };
   jobs: {
     tasks: unknown;
     workflows: unknown;

@@ -122,6 +122,44 @@ function generateCollectionJoinsSchemas(collections: SanitizedCollectionConfig[]
   }
 }
 
+function generateVirtualFieldsSchemas(collections: SanitizedCollectionConfig[]): JSONSchema4 {
+  const properties = [...collections].reduce<Record<string, JSONSchema4>>(
+    (acc, { slug, flattenedFields }) => {
+      const schema = {
+        type: 'object',
+        additionalProperties: false,
+        properties: {},
+        required: [],
+      } satisfies JSONSchema4
+
+      // Scan all flattened fields for virtual: true or virtual: 'path'
+      for (const field of flattenedFields) {
+        if ('virtual' in field && field.virtual && 'name' in field) {
+          schema.properties[field.name] = {
+            type: 'string',
+            enum: [field.name],
+          }
+          schema.required.push(field.name)
+        }
+      }
+
+      if (Object.keys(schema.properties).length > 0) {
+        acc[slug] = schema
+      }
+
+      return acc
+    },
+    {},
+  )
+
+  return {
+    type: 'object',
+    additionalProperties: false,
+    properties,
+    required: Object.keys(properties),
+  }
+}
+
 function generateLocaleEntitySchemas(localization: SanitizedConfig['localization']): JSONSchema4 {
   if (localization && 'locales' in localization && localization?.locales) {
     const localesFromConfig = localization?.locales
@@ -1071,6 +1109,7 @@ export function configToJSONSchema(
       globalsSelect: generateEntitySelectSchemas(config.globals || []),
       locale: generateLocaleEntitySchemas(config.localization),
       user: generateAuthEntitySchemas(config.collections),
+      virtualFields: generateVirtualFieldsSchemas(config.collections || []),
     },
     required: [
       'user',
@@ -1083,6 +1122,7 @@ export function configToJSONSchema(
       'auth',
       'db',
       'jobs',
+      'virtualFields',
     ],
     title: 'Config',
   }

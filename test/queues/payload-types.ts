@@ -38,6 +38,11 @@ export interface Config {
   user: User & {
     collection: 'users';
   };
+  virtualFields: {
+    'payload-jobs': {
+      taskStatus: 'taskStatus';
+    };
+  };
   jobs: {
     tasks: {
       UpdatePost: MyUpdatePostType;

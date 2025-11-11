@@ -53,6 +53,7 @@ export interface Config {
     | (PublicUser & {
         collection: 'public-users';
       });
+  virtualFields: {};
   jobs: {
     tasks: unknown;
     workflows: unknown;

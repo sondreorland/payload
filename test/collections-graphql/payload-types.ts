@@ -54,6 +54,7 @@ export interface Config {
   user: User & {
     collection: 'users';
   };
+  virtualFields: {};
   jobs: {
     tasks: unknown;
     workflows: unknown;

@@ -116,6 +116,7 @@ import type {
   LabelFunction,
   PayloadComponent,
   StaticLabel,
+  StaticPrefixSuffix,
   Timezone,
   TimezonesConfig,
 } from '../../config/types.js'
@@ -627,9 +628,13 @@ export type TextField = {
       beforeInput?: CustomComponent[]
       Error?: CustomComponent<TextFieldErrorClientComponent | TextFieldErrorServerComponent>
       Label?: CustomComponent<TextFieldLabelClientComponent | TextFieldLabelServerComponent>
+      Prefix?: CustomComponent[]
+      Suffix?: CustomComponent[]
     } & FieldAdmin['components']
     placeholder?: Record<string, string> | string
+    prefix?: StaticPrefixSuffix
     rtl?: boolean
+    suffix?: StaticPrefixSuffix
   } & FieldAdmin
   maxLength?: number
   minLength?: number
@@ -658,7 +663,10 @@ export type TextField = {
 
 export type TextFieldClient = {
   admin?: AdminClient &
-    PickPreserveOptional<NonNullable<TextField['admin']>, 'autoComplete' | 'placeholder' | 'rtl'>
+    PickPreserveOptional<
+      NonNullable<TextField['admin']>,
+      'autoComplete' | 'placeholder' | 'prefix' | 'rtl' | 'suffix'
+    >
 } & FieldBaseClient &
   Pick<TextField, 'hasMany' | 'maxLength' | 'maxRows' | 'minLength' | 'minRows' | 'type'>
 

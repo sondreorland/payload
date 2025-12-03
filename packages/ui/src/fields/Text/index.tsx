@@ -21,7 +21,7 @@ const TextFieldComponent: TextFieldClientComponent = (props) => {
   const {
     field,
     field: {
-      admin: { autoComplete, className, description, placeholder, rtl } = {},
+      admin: { autoComplete, className, description, placeholder, prefix, rtl, suffix } = {},
       hasMany,
       label,
       localized,
@@ -53,7 +53,7 @@ const TextFieldComponent: TextFieldClientComponent = (props) => {
   )
 
   const {
-    customComponents: { AfterInput, BeforeInput, Description, Error, Label } = {},
+    customComponents: { AfterInput, BeforeInput, Description, Error, Label, Prefix, Suffix } = {},
     disabled,
     path,
     setValue,
@@ -141,11 +141,15 @@ const TextFieldComponent: TextFieldClientComponent = (props) => {
       }
       path={path}
       placeholder={placeholder}
+      Prefix={Prefix}
+      prefix={prefix}
       readOnly={readOnly || disabled}
       required={required}
       rtl={renderRTL}
       showError={showError}
       style={styles}
+      Suffix={Suffix}
+      suffix={suffix}
       value={(value as string) || ''}
       valueToRender={valueToRender as Option[]}
     />

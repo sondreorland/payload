@@ -173,6 +173,38 @@ const TextFields: CollectionConfig = {
       },
     },
     {
+      name: 'textWithPrefix',
+      type: 'text',
+      admin: {
+        prefix: 'Prefix',
+      },
+    },
+    {
+      name: 'textWithSuffix',
+      type: 'text',
+      admin: {
+        suffix: 'Suffix',
+      },
+    },
+    {
+      name: 'textWithPrefixComponent',
+      type: 'text',
+      admin: {
+        components: {
+          Prefix: ['/collections/Text/CustomPrefix.js#CustomPrefix'],
+        },
+      },
+    },
+    {
+      name: 'textWithSuffixComponent',
+      type: 'text',
+      admin: {
+        components: {
+          Suffix: ['/collections/Text/CustomSuffix.js#CustomSuffix'],
+        },
+      },
+    },
+    {
       name: 'array',
       type: 'array',
       fields: [

@@ -1,0 +1,9 @@
+@import '../../scss/styles.scss';
+
+.field-type__prefix,
+.field-type__suffix {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0 base(0.75);
+}

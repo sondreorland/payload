@@ -1,4 +1,4 @@
-import type { StaticDescription, StaticLabel } from 'payload'
+import type { StaticDescription, StaticLabel, StaticPrefixSuffix } from 'payload'
 import type { ChangeEvent, JSX } from 'react'
 import type React from 'react'
 
@@ -33,11 +33,15 @@ export type TextInputProps = {
   readonly onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
   readonly path: string
   readonly placeholder?: Record<string, string> | string
+  readonly Prefix?: React.ReactNode
+  readonly prefix?: StaticPrefixSuffix
   readonly readOnly?: boolean
   readonly required?: boolean
   readonly rtl?: boolean
   readonly showError?: boolean
   readonly style?: React.CSSProperties
+  readonly Suffix?: React.ReactNode
+  readonly suffix?: StaticPrefixSuffix
   readonly value?: string
   readonly valueToRender?: Option[]
 } & SharedTextFieldProps

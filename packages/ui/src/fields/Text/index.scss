@@ -5,8 +5,86 @@
     position: relative;
 
     &:not(.has-many) {
-      input {
+      .field-type__input-wrapper:not(.has-prefix-suffix) input {
         @include formInput;
+      }
+    }
+  }
+
+  .field-type__input-wrapper {
+    &.has-prefix-suffix {
+      @include formInput;
+      display: flex;
+      align-items: stretch;
+      padding: 0;
+      height: base(2);
+
+      input {
+        flex: 1;
+        min-width: 0;
+        background: none;
+        border: none;
+        box-shadow: none;
+        padding: 0 base(0.75);
+        font-family: inherit;
+        font-size: inherit;
+        color: inherit;
+        line-height: inherit;
+
+        &:focus {
+          outline: none;
+        }
+
+        &:disabled {
+          background: none;
+          color: inherit;
+        }
+      }
+
+      .field-type__prefix {
+        border-right: 1px solid var(--theme-elevation-150);
+      }
+
+      .field-type__suffix {
+        border-left: 1px solid var(--theme-elevation-150);
+      }
+    }
+
+    &.has-prefix-suffix:hover {
+      .field-type__prefix {
+        border-right-color: var(--theme-elevation-250);
+      }
+
+      .field-type__suffix {
+        border-left-color: var(--theme-elevation-250);
+      }
+    }
+
+    &.has-prefix-suffix:focus-within {
+      .field-type__prefix {
+        border-right-color: var(--theme-elevation-400);
+      }
+
+      .field-type__suffix {
+        border-left-color: var(--theme-elevation-400);
+      }
+    }
+  }
+
+  .field-type.text.read-only {
+    .field-type__input-wrapper.has-prefix-suffix {
+      @include readOnly;
+    }
+  }
+
+  .field-type.text.read-only {
+    .field-type__input-wrapper.has-prefix-suffix:hover {
+      .field-type__prefix {
+        border-right-color: var(--theme-elevation-150);
+      }
+
+      .field-type__suffix {
+        border-left-color: var(--theme-elevation-150);
       }
     }
   }
@@ -20,8 +98,20 @@
   html[data-theme='light'] {
     .field-type.text {
       &.error {
-        input {
+        .field-type__input-wrapper:not(.has-prefix-suffix) input {
           @include lightInputError;
+        }
+
+        .field-type__input-wrapper.has-prefix-suffix {
+          @include lightInputError;
+
+          .field-type__prefix {
+            border-right-color: var(--theme-error-500);
+          }
+
+          .field-type__suffix {
+            border-left-color: var(--theme-error-500);
+          }
         }
       }
     }
@@ -30,8 +120,20 @@
   html[data-theme='dark'] {
     .field-type.text {
       &.error {
-        input {
+        .field-type__input-wrapper:not(.has-prefix-suffix) input {
           @include darkInputError;
+        }
+
+        .field-type__input-wrapper.has-prefix-suffix {
+          @include darkInputError;
+
+          .field-type__prefix {
+            border-right-color: var(--theme-error-400);
+          }
+
+          .field-type__suffix {
+            border-left-color: var(--theme-error-400);
+          }
         }
       }
     }

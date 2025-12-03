@@ -345,6 +345,30 @@ export const renderField: RenderFieldMethod = ({
           : 'Mock'
       }
 
+      if ('Prefix' in fieldConfig.admin.components) {
+        fieldState.customComponents.Prefix = !mockRSCs
+          ? RenderServerComponent({
+              clientProps,
+              Component: fieldConfig.admin.components.Prefix,
+              importMap: req.payload.importMap,
+              key: 'field.admin.components.Prefix',
+              serverProps,
+            })
+          : 'Mock'
+      }
+
+      if ('Suffix' in fieldConfig.admin.components) {
+        fieldState.customComponents.Suffix = !mockRSCs
+          ? RenderServerComponent({
+              clientProps,
+              Component: fieldConfig.admin.components.Suffix,
+              importMap: req.payload.importMap,
+              key: 'field.admin.components.Suffix',
+              serverProps,
+            })
+          : 'Mock'
+      }
+
       if ('Description' in fieldConfig.admin.components) {
         fieldState.customComponents.Description = !mockRSCs
           ? RenderServerComponent({

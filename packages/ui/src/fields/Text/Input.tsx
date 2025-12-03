@@ -12,6 +12,7 @@ import { RenderCustomComponent } from '../../elements/RenderCustomComponent/inde
 import { FieldDescription } from '../../fields/FieldDescription/index.js'
 import { FieldError } from '../../fields/FieldError/index.js'
 import { FieldLabel } from '../../fields/FieldLabel/index.js'
+import { FieldPrefixSuffix } from '../../fields/FieldPrefixSuffix/index.js'
 import { useTranslation } from '../../providers/Translation/index.js'
 import { fieldBaseClass } from '../shared/index.js'
 import './index.scss'
@@ -35,11 +36,15 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
     onKeyDown,
     path,
     placeholder: placeholderFromProps,
+    Prefix,
+    prefix: prefixFromProps,
     readOnly,
     required,
     rtl,
     showError,
     style,
+    Suffix,
+    suffix: suffixFromProps,
     value,
     valueToRender,
   } = props
@@ -92,6 +97,12 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
   }
 
   const placeholder = getTranslation(placeholderFromProps, i18n)
+
+  const hasPrefixOrSuffix =
+    Prefix !== undefined ||
+    prefixFromProps !== undefined ||
+    Suffix !== undefined ||
+    suffixFromProps !== undefined
 
   return (
     <div
@@ -150,19 +161,36 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
             value={valueToRender}
           />
         ) : (
-          <input
-            data-rtl={rtl}
-            disabled={readOnly}
-            id={`field-${path?.replace(/\./g, '__')}`}
-            name={path}
-            onChange={onChange as (e: ChangeEvent<HTMLInputElement>) => void}
-            onKeyDown={onKeyDown}
-            placeholder={placeholder}
-            ref={inputRef}
-            type="text"
-            value={value || ''}
-            {...(htmlAttributes ?? {})}
-          />
+          <div
+            className={[
+              `${fieldBaseClass}__input-wrapper`,
+              hasPrefixOrSuffix && 'has-prefix-suffix',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <RenderCustomComponent
+              CustomComponent={Prefix}
+              Fallback={<FieldPrefixSuffix path={path} prefix={prefixFromProps} />}
+            />
+            <input
+              data-rtl={rtl}
+              disabled={readOnly}
+              id={`field-${path?.replace(/\./g, '__')}`}
+              name={path}
+              onChange={onChange as (e: ChangeEvent<HTMLInputElement>) => void}
+              onKeyDown={onKeyDown}
+              placeholder={placeholder}
+              ref={inputRef}
+              type="text"
+              value={value || ''}
+              {...(htmlAttributes ?? {})}
+            />
+            <RenderCustomComponent
+              CustomComponent={Suffix}
+              Fallback={<FieldPrefixSuffix path={path} suffix={suffixFromProps} />}
+            />
+          </div>
         )}
         {AfterInput}
         <RenderCustomComponent

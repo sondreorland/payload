@@ -344,6 +344,60 @@ describe('Text', () => {
     await expect(page.locator('table >> tbody >> tr')).toHaveCount(1)
   })
 
+  test('should render text prefix', async () => {
+    await page.goto(url.create)
+    const field = page.locator('.field-textWithPrefix')
+    const prefix = field.locator('.field-type__prefix')
+    await expect(prefix).toBeVisible()
+    await expect(prefix).toHaveText('Prefix')
+  })
+
+  test('should render text suffix', async () => {
+    await page.goto(url.create)
+    const field = page.locator('.field-textWithSuffix')
+    const suffix = field.locator('.field-type__suffix')
+    await expect(suffix).toBeVisible()
+    await expect(suffix).toHaveText('Suffix')
+  })
+
+  test('should render prefix component', async () => {
+    await page.goto(url.create)
+    const field = page.locator('.field-textWithPrefixComponent')
+    const prefix = field.locator('.field-type__prefix')
+    await expect(prefix).toBeVisible()
+    await expect(prefix).toHaveText('Prefix Component')
+  })
+
+  test('should render suffix component', async () => {
+    await page.goto(url.create)
+    const field = page.locator('.field-textWithSuffixComponent')
+    const suffix = field.locator('.field-type__suffix')
+    await expect(suffix).toBeVisible()
+    await expect(suffix).toHaveText('Suffix Component')
+  })
+
+  test('should allow input with prefix', async () => {
+    await page.goto(url.create)
+    const requiredField = page.locator('#field-text')
+    await requiredField.fill('test')
+
+    const input = page.locator('#field-textWithPrefix')
+    await input.fill('100')
+    await saveDocAndAssert(page)
+    await expect(input).toHaveValue('100')
+  })
+
+  test('should allow input with suffix', async () => {
+    await page.goto(url.create)
+    const requiredField = page.locator('#field-text')
+    await requiredField.fill('test')
+
+    const input = page.locator('#field-textWithSuffix')
+    await input.fill('200')
+    await saveDocAndAssert(page)
+    await expect(input).toHaveValue('200')
+  })
+
   describe('A11y', () => {
     test.fixme('Edit view should have no accessibility violations', async ({}, testInfo) => {
       await page.goto(url.create)

@@ -108,6 +108,10 @@ export function genImportMapIterateFields({
     hasKey(field?.admin?.components, 'beforeInput') &&
       addToImportMap(field?.admin?.components?.beforeInput)
 
+    hasKey(field?.admin?.components, 'Prefix') && addToImportMap(field?.admin?.components?.Prefix)
+
+    hasKey(field?.admin?.components, 'Suffix') && addToImportMap(field?.admin?.components?.Suffix)
+
     hasKey(field?.admin?.components, 'RowLabel') &&
       addToImportMap(field?.admin?.components?.RowLabel)
 

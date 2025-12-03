@@ -790,6 +790,10 @@ export interface TextField {
   withMinRows?: string[] | null;
   withMaxRows?: string[] | null;
   defaultValueFromReq?: string | null;
+  textWithPrefix?: string | null;
+  textWithSuffix?: string | null;
+  textWithPrefixComponent?: string | null;
+  textWithSuffixComponent?: string | null;
   array?:
     | {
         texts?: string[] | null;
@@ -3405,6 +3409,10 @@ export interface TextFieldsSelect<T extends boolean = true> {
   withMinRows?: T;
   withMaxRows?: T;
   defaultValueFromReq?: T;
+  textWithPrefix?: T;
+  textWithSuffix?: T;
+  textWithPrefixComponent?: T;
+  textWithSuffixComponent?: T;
   array?:
     | T
     | {

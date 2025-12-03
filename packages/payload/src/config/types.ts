@@ -562,6 +562,8 @@ export type LabelFunction<TTranslationKeys = DefaultTranslationKeys> = (args: {
 
 export type StaticLabel = Record<string, string> | string
 
+export type StaticPrefixSuffix = Record<string, string> | string
+
 export type SharpDependency = (
   input?:
     | ArrayBuffer

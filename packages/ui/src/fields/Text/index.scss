@@ -5,7 +5,7 @@
     position: relative;
 
     &:not(.has-many) {
-      .field-type__input-wrapper:not(.has-prefix-suffix) input {
+      input:not(.field-type__input-wrapper input) {
         @include formInput;
       }
     }

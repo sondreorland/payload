@@ -104,6 +104,22 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
     Suffix !== undefined ||
     suffixFromProps !== undefined
 
+  const inputElement = (
+    <input
+      data-rtl={rtl}
+      disabled={readOnly}
+      id={`field-${path?.replace(/\./g, '__')}`}
+      name={path}
+      onChange={onChange as (e: ChangeEvent<HTMLInputElement>) => void}
+      onKeyDown={onKeyDown}
+      placeholder={placeholder}
+      ref={inputRef}
+      type="text"
+      value={value || ''}
+      {...(htmlAttributes ?? {})}
+    />
+  )
+
   return (
     <div
       className={[
@@ -161,19 +177,7 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
             value={valueToRender}
           />
         ) : !hasPrefixOrSuffix ? (
-          <input
-            data-rtl={rtl}
-            disabled={readOnly}
-            id={`field-${path?.replace(/\./g, '__')}`}
-            name={path}
-            onChange={onChange as (e: ChangeEvent<HTMLInputElement>) => void}
-            onKeyDown={onKeyDown}
-            placeholder={placeholder}
-            ref={inputRef}
-            type="text"
-            value={value || ''}
-            {...(htmlAttributes ?? {})}
-          />
+          inputElement
         ) : (
           <div
             className={[`${fieldBaseClass}__input-wrapper`, 'has-prefix-suffix']
@@ -184,19 +188,7 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
               CustomComponent={Prefix}
               Fallback={<FieldPrefixSuffix path={path} prefix={prefixFromProps} />}
             />
-            <input
-              data-rtl={rtl}
-              disabled={readOnly}
-              id={`field-${path?.replace(/\./g, '__')}`}
-              name={path}
-              onChange={onChange as (e: ChangeEvent<HTMLInputElement>) => void}
-              onKeyDown={onKeyDown}
-              placeholder={placeholder}
-              ref={inputRef}
-              type="text"
-              value={value || ''}
-              {...(htmlAttributes ?? {})}
-            />
+            {inputElement}
             <RenderCustomComponent
               CustomComponent={Suffix}
               Fallback={<FieldPrefixSuffix path={path} suffix={suffixFromProps} />}

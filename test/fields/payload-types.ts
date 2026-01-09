@@ -82,6 +82,7 @@ export interface Config {
     'collapsible-fields': CollapsibleField;
     'conditional-logic': ConditionalLogic;
     'custom-id': CustomId;
+    'custom-id-nested': CustomIdNested;
     'custom-tab-id': CustomTabId;
     'custom-row-id': CustomRowId;
     'date-fields': DateField;
@@ -124,6 +125,7 @@ export interface Config {
     'collapsible-fields': CollapsibleFieldsSelect<false> | CollapsibleFieldsSelect<true>;
     'conditional-logic': ConditionalLogicSelect<false> | ConditionalLogicSelect<true>;
     'custom-id': CustomIdSelect<false> | CustomIdSelect<true>;
+    'custom-id-nested': CustomIdNestedSelect<false> | CustomIdNestedSelect<true>;
     'custom-tab-id': CustomTabIdSelect<false> | CustomTabIdSelect<true>;
     'custom-row-id': CustomRowIdSelect<false> | CustomRowIdSelect<true>;
     'date-fields': DateFieldsSelect<false> | DateFieldsSelect<true>;
@@ -968,6 +970,20 @@ export interface CustomId {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "custom-id-nested".
+ */
+export interface CustomIdNested {
+  /**
+   * Custom numeric ID nested in an unnamed tab
+   */
+  id: number;
+  title: string;
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "custom-tab-id".
  */
 export interface CustomTabId {
@@ -1005,7 +1021,7 @@ export interface DateField {
   dayAndTimeWithTimezone: string;
   dayAndTimeWithTimezone_tz: SupportedTimezones;
   dayAndTimeWithTimezoneFixed?: string | null;
-  dayAndTimeWithTimezoneFixed_tz?: SupportedTimezones;
+  dayAndTimeWithTimezoneFixed_tz?: 'Europe/London' | null;
   dayAndTimeWithTimezoneRequired?: string | null;
   dayAndTimeWithTimezoneRequired_tz: SupportedTimezones;
   dayAndTimeWithTimezoneReadOnly?: string | null;
@@ -1036,6 +1052,12 @@ export interface DateField {
         id?: string | null;
       }[]
     | null;
+  dateWithOffsetTimezone?: string | null;
+  dateWithOffsetTimezone_tz?: ('+05:30' | '-08:00' | '+00:00') | null;
+  dateWithMixedTimezones?: string | null;
+  dateWithMixedTimezones_tz?: ('America/New_York' | '+05:30' | 'UTC') | null;
+  dateWithTimezoneWithDisabledColumns?: string | null;
+  dateWithTimezoneWithDisabledColumns_tz?: SupportedTimezones;
   updatedAt: string;
   createdAt: string;
 }
@@ -1891,6 +1913,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'custom-id';
         value: string | CustomId;
+      } | null)
+    | ({
+        relationTo: 'custom-id-nested';
+        value: string | CustomIdNested;
       } | null)
     | ({
         relationTo: 'custom-tab-id';
@@ -2761,6 +2787,17 @@ export interface CustomIdSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "custom-id-nested_select".
+ */
+export interface CustomIdNestedSelect<T extends boolean = true> {
+  id?: T;
+  title?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "custom-tab-id_select".
  */
 export interface CustomTabIdSelect<T extends boolean = true> {
@@ -2830,6 +2867,12 @@ export interface DateFieldsSelect<T extends boolean = true> {
         date?: T;
         id?: T;
       };
+  dateWithOffsetTimezone?: T;
+  dateWithOffsetTimezone_tz?: T;
+  dateWithMixedTimezones?: T;
+  dateWithMixedTimezones_tz?: T;
+  dateWithTimezoneWithDisabledColumns?: T;
+  dateWithTimezoneWithDisabledColumns_tz?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -160,12 +160,23 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
             showError={showError}
             value={valueToRender}
           />
+        ) : !hasPrefixOrSuffix ? (
+          <input
+            data-rtl={rtl}
+            disabled={readOnly}
+            id={`field-${path?.replace(/\./g, '__')}`}
+            name={path}
+            onChange={onChange as (e: ChangeEvent<HTMLInputElement>) => void}
+            onKeyDown={onKeyDown}
+            placeholder={placeholder}
+            ref={inputRef}
+            type="text"
+            value={value || ''}
+            {...(htmlAttributes ?? {})}
+          />
         ) : (
           <div
-            className={[
-              `${fieldBaseClass}__input-wrapper`,
-              hasPrefixOrSuffix && 'has-prefix-suffix',
-            ]
+            className={[`${fieldBaseClass}__input-wrapper`, 'has-prefix-suffix']
               .filter(Boolean)
               .join(' ')}
           >

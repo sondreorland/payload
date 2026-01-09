@@ -1,5 +1,6 @@
 import type { DeepRequired } from 'ts-essentials'
 
+import type { OptionLabel } from '../fields/config/types.js'
 import type { CollectionSlug, GlobalSlug, Payload, TypedUser } from '../index.js'
 import type { PayloadRequest, Where } from '../types/index.js'
 
@@ -211,6 +212,13 @@ export type LoginWithUsernameOptions =
       requireUsername?: boolean
     }
 
+export type RoleObject = {
+  label: OptionLabel
+  name: string
+}
+
+export type Role = RoleObject | string
+
 export interface IncomingAuthType {
   /**
    * Set cookie options, including secure, sameSite, and domain. For advanced users.
@@ -270,6 +278,19 @@ export interface IncomingAuthType {
    */
   removeTokenFromResponses?: true
   /**
+   * Array of user roles for this collection. Automatically adds a roles select field and saves to JWT.
+   *
+   * @example
+   * ```ts
+   * roles: [
+   *   { name: 'admin', label: 'Administrator' },
+   *   { name: 'editor', label: 'Editor' },
+   *   { name: 'viewer', label: 'Viewer' },
+   * ]
+   * ```
+   */
+  roles?: Role[]
+  /**
    * Advanced - an array of custom authentification strategies to extend this collection's authentication with.
    * @link https://payloadcms.com/docs/authentication/custom-strategies
    */
@@ -311,13 +332,17 @@ export type VerifyConfig = {
 }
 
 export interface Auth
-  extends Omit<DeepRequired<IncomingAuthType>, 'forgotPassword' | 'loginWithUsername' | 'verify'> {
+  extends Omit<
+    DeepRequired<IncomingAuthType>,
+    'forgotPassword' | 'loginWithUsername' | 'roles' | 'verify'
+  > {
   forgotPassword?: {
     expiration?: number
     generateEmailHTML?: GenerateForgotPasswordEmailHTML
     generateEmailSubject?: GenerateForgotPasswordEmailSubject
   }
   loginWithUsername: false | LoginWithUsernameOptions
+  roles?: RoleObject[]
   verify?: boolean | VerifyConfig
 }
 

@@ -1,10 +1,11 @@
 import type { Field, TextField } from '../fields/config/types.js'
-import type { IncomingAuthType } from './types.js'
+import type { Auth, IncomingAuthType } from './types.js'
 
 import { accountLockFields } from './baseFields/accountLock.js'
 import { apiKeyFields } from './baseFields/apiKey.js'
 import { baseAuthFields } from './baseFields/auth.js'
 import { emailFieldConfig } from './baseFields/email.js'
+import { rolesFieldConfig } from './baseFields/roles.js'
 import { sessionsFieldConfig } from './baseFields/sessions.js'
 import { usernameFieldConfig } from './baseFields/username.js'
 import { verificationFields } from './baseFields/verification.js'
@@ -45,6 +46,10 @@ export const getBaseAuthFields = (authConfig: IncomingAuthType): Field[] => {
     }
 
     authFields.push(...baseAuthFields)
+
+    if (authConfig.roles && authConfig.roles.length > 0) {
+      authFields.push(rolesFieldConfig(authConfig as Auth))
+    }
 
     if (authConfig.verify) {
       authFields.push(...verificationFields)

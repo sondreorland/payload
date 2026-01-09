@@ -2,6 +2,7 @@ import type { IncomingAuthType, LoginWithUsernameOptions } from '../../auth/type
 import type { CollectionConfig } from './types.js'
 
 import { defaultAccess } from '../../auth/defaultAccess.js'
+import { sanitizeRoles } from '../../auth/sanitizeRoles.js'
 
 /**
  * @deprecated - remove in 4.0. This is error-prone, as mutating this object will affect any objects that use the defaults as a base.
@@ -146,6 +147,7 @@ export const addDefaultsToAuthConfig = (auth: IncomingAuthType): IncomingAuthTyp
   auth.useSessions = auth.useSessions ?? true
   auth.verify = auth.verify ?? false
   auth.strategies = auth.strategies ?? []
+  auth.roles = sanitizeRoles(auth.roles)
 
   if (!auth.disableLocalStrategy && auth.verify === true) {
     auth.verify = {}
